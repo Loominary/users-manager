@@ -9,6 +9,7 @@ _____________________________________________
  Database tables and fields:
 
  Database name: set up in config file!
+ 
  users: user_id, full_name, email, status
 
  ____________________________________________
