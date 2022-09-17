@@ -7,7 +7,10 @@ interface HeaderProps {
 interface HeaderState {
     full_name:string;
     email:string;
+    selectedStatus:string;
+    selectOptions:Array<string>;
 }
+
  
 class Header extends React.Component<HeaderProps, HeaderState> {
     
@@ -16,6 +19,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         this.state = {
             full_name: '',
             email: '',
+            selectedStatus: 'Active',
+            selectOptions: ['Active', 'Expired', 'Banned'],
         }
     }
 
@@ -26,16 +31,29 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         })
     }
 
+    handleStatusChange = (event:React.ChangeEvent<HTMLSelectElement>)=>{
+        this.setState({
+            ...this.state,
+            selectedStatus: event.target.value
+        })
+    }
+
+
+
+
     addUser = () => {
         this.props.addUser({
             full_name: this.state.full_name,
             email: this.state.email,
-            status: 'Active'
+            status: this.state.selectedStatus
+            
+            
         })
-
+        console.log(this.state.selectedStatus);
         this.setState(() => ({
             full_name: '',
-            email: ''
+            email: '',
+            
         }))
     }
 
@@ -52,6 +70,16 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                     <input value={this.state.email}
                         onChange={(e) => this.handleInputChange(e, 'email')}
                         type="text" placeholder="Email" className="form-control mx-3" />
+
+                     <select  onChange={(e) => this.handleStatusChange(e)}
+                        value={this.state.selectedStatus} className="form-select text-capitalize">
+                            {
+                                this.state.selectOptions.map((status)=> 
+                                <option key={status} value={status}>{status}</option>
+                                )
+                            }
+                           
+                        </select>
 
                     <button onClick={this.addUser} className="btn btn-info text-white">Add</button>
                     
